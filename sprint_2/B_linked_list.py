@@ -1,0 +1,39 @@
+LOCAL = True
+
+if LOCAL:
+    class Node:
+        def __init__(self, value, next_item=None):
+            self.value = value
+            self.next = next_item
+
+
+def get_node_by_index(node, indx):
+    while indx:
+        node = node.next
+        indx -= 1
+    return node
+
+
+def solution(node, idx):
+    if idx == 0:
+        return node.next
+    curr_node = get_node_by_index(node, idx - 1)
+    next_node = get_node_by_index(node, idx + 1)
+    curr_node.next = next_node
+    return node
+
+
+def test():
+    node3 = Node("node3", None)
+    node2 = Node("node2", node3)
+    node1 = Node("node1", node2)
+    node0 = Node("node0", node1)
+    new_head = solution(node0, 1)
+    assert new_head is node0
+    assert new_head.next is node2
+    assert new_head.next.next is node3
+    assert new_head.next.next.next is None
+    # result is node0 -> node2 -> node3
+
+if __name__ == '__main__':
+    test()
